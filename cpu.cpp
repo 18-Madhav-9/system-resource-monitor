@@ -21,10 +21,5 @@ void cpu() {
     double usage =  (1.0 - (double)idle/(kernel+user))*100 ;
     
     std::cout << "CPU Usage : " << usage << "%\n" ;
-}
 
-int main() {
-
-    cpu() ;
-    return 0 ;
 }
