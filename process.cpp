@@ -19,9 +19,3 @@ void process(){
     CloseHandle(snapshot) ;
 
 }
-
-int main() {
-
-    process();
-    return 0 ;
-}
