@@ -4,7 +4,7 @@
 // converting bytes to GB
 #define GB (1024.0*1024*1024)
 
-void memory(double &ramusage,double &availram,double &totalram) {
+void getMemoryUsage(double &ramusage,double &availram,double &totalram) {
 
     MEMORYSTATUSEX status ;
     status.dwLength = sizeof(status) ;

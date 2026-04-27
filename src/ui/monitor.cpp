@@ -1,19 +1,19 @@
 #include <iostream>
 #include <iomanip>
-#include "memory.h"
-#include "cpu.h"
-#include "process.h"
+#include "memory/memory.h"
+#include "cpu/cpu.h"
+#include "process/process.h"
 #include <algorithm>
 
 void monitorBox() {
     double cpuUsage;
-    cpu(cpuUsage);
+    getCpuUsage(cpuUsage);
 
     double ramusage, availram, totalram, usedram;
-    memory(ramusage, availram, totalram);
+    getMemoryUsage(ramusage, availram, totalram);
     usedram = totalram - availram;
 
-    auto processes = process();
+    auto processes = getProcess();
 
     // Build strings
     std::string left1, left2, right1, right2;
@@ -85,22 +85,4 @@ void monitorBox() {
 
     // Bottom border
     std::cout << "+" << std::string(fullWidth, '-') << "+\n";
-}
-
-
-
-int main() {
-    
-    std::cout << "\n----------------------\n" ;
-    std::cout << "    System Monitor     " ;
-    std::cout << "\n----------------------\n" ;
-    Sleep(1000);
-    while(true) {
-        system("cls") ;
-        monitorBox() ;
-        Sleep(1000);
-    }
-
-
-    return 0;
 }

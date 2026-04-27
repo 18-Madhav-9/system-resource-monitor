@@ -6,7 +6,7 @@ ULONGLONG filetimeToULL(const FILETIME &f ) {
     return  (((ULONGLONG)f.dwHighDateTime << 32 ))|f.dwLowDateTime ;
 }
 
-void cpu(double &cpuusage) {
+void getCpuUsage(double &cpuusage) {
     FILETIME idle1,kernel1,user1;
     FILETIME idle2,kernel2,user2 ;
 

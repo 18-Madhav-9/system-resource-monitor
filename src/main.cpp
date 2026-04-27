@@ -1,0 +1,20 @@
+#include <iostream>
+#include <ui/monitor.h>
+#include <algorithm>
+#include <windows.h>
+
+int main() {
+    
+    std::cout << "\n----------------------\n" ;
+    std::cout << "    System Monitor     " ;
+    std::cout << "\n----------------------\n" ;
+    Sleep(1000);
+    while(true) {
+        system("cls") ;
+        monitorBox() ;
+        Sleep(1000);
+    }
+
+
+    return 0;
+}

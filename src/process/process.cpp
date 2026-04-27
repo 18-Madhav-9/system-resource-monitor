@@ -3,12 +3,12 @@
 #include <psapi.h>
 #include <iostream>
 #include <vector>
-#include "ProcessInfo.h"
+#include "process_info.h"
 
 // convert btyes to MB ;
 #define MB (1024.0*1024)
 
-std::vector<ProcessInfo> process(){
+std::vector<ProcessInfo> getProcess(){
 
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,0) ;
 
