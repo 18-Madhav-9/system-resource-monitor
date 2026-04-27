@@ -5,7 +5,7 @@
 #include <vector>
 
 // convert btyes to MB ;
-#define MB (1024*1024)
+#define MB (1024.0*1024)
 
 
 struct ProcessInfo {
@@ -31,19 +31,25 @@ std::vector<ProcessInfo> process(){
             p.id = current.th32ProcessID ;
             p.memoryMb = 0.0 ;
 
-            if ( p.id <=10 ) continue ;//skip some system processess
-
             HANDLE hprocess = OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ , false,p.id) ;
-
             PROCESS_MEMORY_COUNTERS pmc ;
+
+            if (!hprocess) {
+                continue; // skip protected/system processes
+            }
+            
             if ( GetProcessMemoryInfo(hprocess,&pmc,sizeof(pmc)) ) {
                 p.memoryMb = pmc.WorkingSetSize/MB ;
+                if (p.memoryMb < 5.0) {
+                    CloseHandle(hprocess);
+                    continue; // skip small processes
+                }
             }
             CloseHandle(hprocess) ;
 
             plist.push_back(p) ;
-            count++ ;
-            if ( count >=5 ) break ;
+            //count++ ;
+            //if ( count >=5 ) break ;
         }while ( Process32Next(snapshot,&current) ) ;
     }
     
