@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iomanip>
-#include <windows.h>
 #include "memory.h"
 #include "cpu.h"
 #include "process.h"
