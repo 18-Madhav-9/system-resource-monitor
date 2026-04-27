@@ -3,16 +3,10 @@
 #include <psapi.h>
 #include <iostream>
 #include <vector>
+#include "ProcessInfo.h"
 
 // convert btyes to MB ;
 #define MB (1024.0*1024)
-
-
-struct ProcessInfo {
-    std::string name;
-    DWORD id ;
-    double memoryMb;
-};
 
 std::vector<ProcessInfo> process(){
 

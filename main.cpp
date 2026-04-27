@@ -1,8 +1,9 @@
 #include <iostream>
 #include <iomanip>
-#include "memory.cpp"
-#include "cpu.cpp"
-#include "process.cpp"
+#include <windows.h>
+#include "memory.h"
+#include "cpu.h"
+#include "process.h"
 
 void monitorBox() {
     double cpuUsage;
