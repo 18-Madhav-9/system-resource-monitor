@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
-#include "memory/memory.h"
 #include "cpu/cpu.h"
+#include "memory/memory.h"
 #include "process/process.h"
 #include <algorithm>
 
