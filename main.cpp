@@ -12,6 +12,8 @@ void monitorBox() {
     memory(ramusage, availram, totalram);
     usedram = totalram - availram;
 
+    auto processes = process();
+
     // Build strings
     std::string left1, left2, right1, right2;
 
@@ -21,7 +23,7 @@ void monitorBox() {
         left1 = ss.str();
     }
 
-    left2 = ""; 
+    left2 = "";
 
     {
         std::ostringstream ss;
@@ -37,26 +39,50 @@ void monitorBox() {
         right2 = ss.str();
     }
 
-    size_t leftWidth = std::max(left1.length(), left2.length()) + 2;
+    size_t leftWidth  = std::max(left1.length(), left2.length()) + 2;
     size_t rightWidth = std::max(right1.length(), right2.length()) + 2;
+    size_t fullWidth  = leftWidth + rightWidth + 1; // merged width
 
     std::cout << "+" << std::string(leftWidth, '-')
-          << "+" << std::string(rightWidth, '-') << "+\n";
+              << "+" << std::string(rightWidth, '-') << "+\n";
 
     std::cout << "|"
-            << std::left << std::setw(leftWidth) << left1
-            << "|"
-            << std::left << std::setw(rightWidth) << right1
-            << "|\n";
+              << std::left << std::setw(leftWidth) << left1
+              << "|"
+              << std::left << std::setw(rightWidth) << right1
+              << "|\n";
 
     std::cout << "|"
-            << std::left << std::setw(leftWidth) << left2
-            << "|"
-            << std::left << std::setw(rightWidth) << right2
-            << "|\n";
+              << std::left << std::setw(leftWidth) << left2
+              << "|"
+              << std::left << std::setw(rightWidth) << right2
+              << "|\n";
 
     std::cout << "+" << std::string(leftWidth, '-')
-            << "+" << std::string(rightWidth, '-') << "+\n";
+              << "+" << std::string(rightWidth, '-') << "+\n";
+
+    // Separator before process list
+    std::cout << "+" << std::string(fullWidth, '-') << "+\n";
+
+    // Process list
+    for (const auto &p : processes) {
+        std::ostringstream ss;
+        ss << p.name << " (PID: " << p.id << ") - "
+           << std::fixed << std::setprecision(2)
+           << p.memoryMb << " MB";
+
+        std::string line = ss.str();
+
+        if (line.length() > fullWidth)
+            line = line.substr(0, fullWidth - 3) + "...";
+
+        std::cout << "|"
+                  << std::left << std::setw(fullWidth) << line
+                  << "|\n";
+    }
+
+    // Bottom border
+    std::cout << "+" << std::string(fullWidth, '-') << "+\n";
 }
 
 
@@ -70,7 +96,7 @@ int main() {
     while(true) {
         system("cls") ;
         monitorBox() ;
-        Sleep(500);
+        Sleep(1000);
     }
 
 
