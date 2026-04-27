@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "cpu.h"
 #include "process.h"
+#include <algorithm>
 
 void monitorBox() {
     double cpuUsage;
@@ -65,6 +66,7 @@ void monitorBox() {
     std::cout << "+" << std::string(fullWidth, '-') << "+\n";
 
     // Process list
+    sort(processes.begin(),processes.end()) ;
     for (const auto &p : processes) {
         std::ostringstream ss;
         ss << p.name << " (PID: " << p.id << ") - "

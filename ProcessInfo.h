@@ -7,6 +7,10 @@ struct ProcessInfo {
     std::string name;
     DWORD id ;
     double memoryMb;
+
+    bool operator<(const ProcessInfo &other) const{ 
+        return memoryMb > other.memoryMb ;
+    }
 };
 
 
