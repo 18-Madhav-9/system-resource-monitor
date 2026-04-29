@@ -15,6 +15,7 @@ void monitorBox() {
 
     auto processes = getProcess();
 
+
     // Build strings
     std::string left1, left2, right1, right2;
 
@@ -62,12 +63,18 @@ void monitorBox() {
     std::cout << "+" << std::string(leftWidth, '-')
               << "+" << std::string(rightWidth, '-') << "+\n";
 
-    // Separator before process list
     std::cout << "+" << std::string(fullWidth, '-') << "+\n";
 
-    // Process list
-    sort(processes.begin(),processes.end()) ;
+    sort(processes.begin(), processes.end());
+
+    int maxProcessesToShow = 15;
+    int count = 0;
+
     for (const auto &p : processes) {
+        if (count >= maxProcessesToShow) {
+            break;
+        }
+
         std::ostringstream ss;
         ss << p.name << " (PID: " << p.id << ") - "
            << std::fixed << std::setprecision(2)
@@ -81,8 +88,11 @@ void monitorBox() {
         std::cout << "|"
                   << std::left << std::setw(fullWidth) << line
                   << "|\n";
+                  
+        count++;
     }
 
-    // Bottom border
     std::cout << "+" << std::string(fullWidth, '-') << "+\n";
+    
+    std::cout << "\033[J" << std::flush;
 }

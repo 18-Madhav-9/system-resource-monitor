@@ -9,12 +9,12 @@ int main() {
     std::cout << "    System Monitor     " ;
     std::cout << "\n----------------------\n" ;
     Sleep(1000);
-    while(true) {
-        system("cls") ;
+    std::cout << "\033[2J" ;
+    while (true) {
+        std::cout << "\033[H";
         monitorBox() ;
-        Sleep(1000);
+        Sleep(1000) ;
     }
-
 
     return 0;
 }
