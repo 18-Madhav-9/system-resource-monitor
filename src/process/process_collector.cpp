@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#define MB 1024.0 * 1024.0;
+#define MB (1024.0 * 1024.0);
 
 std::vector<ProcessInfo> getProcesses() {
 
@@ -34,7 +34,7 @@ std::vector<ProcessInfo> getProcesses() {
             PROCESS_MEMORY_COUNTERS pmc;
 
             if (GetProcessMemoryInfo(hprocess,&pmc,sizeof(pmc))) {
-                process.memoryMb =pmc.WorkingSetSize/MB;
+                process.memoryMb = pmc.WorkingSetSize/MB ;
             }
 
             CloseHandle(hprocess);
