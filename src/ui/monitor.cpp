@@ -29,7 +29,7 @@ void updateStats() {
 
     CpuInfo cpuinfo = getCpuInfo() ;
     MemoryInfo memoryinfo = getMemoryInfo() ;
-    auto processes = getProcess() ;
+    auto processes = getProcesses() ;
 
     moveCursor(2,8) ;
     std::cout << std::fixed
