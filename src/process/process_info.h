@@ -5,7 +5,7 @@
 #include <string>
 struct ProcessInfo {
     std::string name;
-    DWORD id ;
+    DWORD pid ;
     double memoryMb;
 
     bool operator<(const ProcessInfo &other) const{ 

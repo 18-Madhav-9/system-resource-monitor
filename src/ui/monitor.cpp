@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
-#include "cpu/cpu.h"
-#include "memory/memory.h"
-#include "process/process.h"
+#include "cpu/cpu_collector.h"
+#include "memory/memory_collector.h"
+#include "process/process_collector.h"
 #include <algorithm>
 
 void moveCursor(int row,int col) {
@@ -27,28 +27,26 @@ void drawLayout() {
 
 void updateStats() {
 
-    double cpuUsage,ramUsage,availRam,totalRam,usedRam ;
-    getCpuUsage(cpuUsage) ;
-    getMemoryUsage(ramUsage,availRam,totalRam) ;
-    usedRam = totalRam-availRam ;
+    CpuInfo cpuinfo = getCpuInfo() ;
+    MemoryInfo memoryinfo = getMemoryInfo() ;
     auto processes = getProcess() ;
 
     moveCursor(2,8) ;
     std::cout << std::fixed
               << std::setprecision(2)
-              << cpuUsage << " %"; 
+              << cpuinfo.usage<< " %"; 
     moveCursor(2,28);
     std::cout << std::fixed
               << std::setprecision(2)
-              << usedRam << "/" << totalRam << " GB" ;
+              << memoryinfo.used << "/" << memoryinfo.total << " GB" ;
     moveCursor(3,28);
     std::cout << std::fixed
               << std::setprecision(2)
-              << ramUsage << " %" ;
+              << memoryinfo.usedPercent << " %" ;
     moveCursor(3,42) ;
     std::cout << std::fixed
               << std::setprecision(2)
-              << availRam << "GB" ;
+              << memoryinfo.free << "GB" ;
 
     int row = 6 ;
     std::sort(processes.begin(), processes.end());
@@ -59,7 +57,7 @@ void updateStats() {
             const auto &p = processes[i];
             std::ostringstream ss;
             ss << p.name
-               << " PID:" << p.id
+               << " PID:" << p.pid
                << " "
                << std::fixed << std::setprecision(2)
                << p.memoryMb << "MB";

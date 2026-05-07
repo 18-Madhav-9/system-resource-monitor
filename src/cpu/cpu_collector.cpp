@@ -1,12 +1,12 @@
+#include "cpu_info.h"
 #include <windows.h>
-#include <iostream>
 
 // coverting FILETIME struct to actual ticks 
 ULONGLONG filetimeToULL(const FILETIME &f ) {
     return  (((ULONGLONG)f.dwHighDateTime << 32 ))|f.dwLowDateTime ;
 }
 
-void getCpuUsage(double &cpuusage) {
+CpuInfo getCpuInfo() {
     FILETIME idle1,kernel1,user1;
     FILETIME idle2,kernel2,user2 ;
 
@@ -19,7 +19,8 @@ void getCpuUsage(double &cpuusage) {
     ULONGLONG user = filetimeToULL(user2)-filetimeToULL(user1) ;
 
     double usage =  (1.0 - (double)idle/(kernel+user))*100 ;
-    cpuusage = usage ;
-    //std::cout << "CPU Usage : " << usage << "%\n" ;
+    CpuInfo info ;
+    info.usage = usage ;
+    return info ;
 
 }
