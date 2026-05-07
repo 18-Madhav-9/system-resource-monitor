@@ -18,7 +18,7 @@ void drawLayout() {
     std::cout << "+------------------------------------------------+\n" ;
     
     std::cout << "+------------------------------------------------+\n" ;
-    for (int i = 0 ; i < 15 ; i++) {
+    for (int i = 0 ; i < 20 ; i++) {
         std::cout << "|                                                |\n" ;
     }
 
@@ -51,7 +51,8 @@ void updateStats() {
               << availRam << "GB" ;
 
     int row = 6 ;
-    for ( int i = 0 ; i < 15 ;i++ ) {
+    std::sort(processes.begin(), processes.end());
+    for ( int i = 0 ; i < 20 ;i++ ) {
         moveCursor(row+i,2) ;
 
         if (i < processes.size()) {
