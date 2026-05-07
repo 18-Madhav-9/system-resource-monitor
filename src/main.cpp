@@ -10,9 +10,10 @@ int main() {
     std::cout << "\n----------------------\n" ;
     Sleep(1000);
     std::cout << "\033[2J" ;
+    std::cout << "\033[H";
+    drawLayout() ;
     while (true) {
-        std::cout << "\033[H";
-        monitorBox() ;
+        updateStats() ;
         Sleep(1000) ;
     }
 

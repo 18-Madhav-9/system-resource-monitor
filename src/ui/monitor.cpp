@@ -5,94 +5,65 @@
 #include "process/process.h"
 #include <algorithm>
 
-void monitorBox() {
-    double cpuUsage;
-    getCpuUsage(cpuUsage);
+void moveCursor(int row,int col) {
+    std::cout << "\033[" << row <<";" <<col << "H" ;
+}
 
-    double ramusage, availram, totalram, usedram;
-    getMemoryUsage(ramusage, availram, totalram);
-    usedram = totalram - availram;
-
-    auto processes = getProcess();
-
-
-    // Build strings
-    std::string left1, left2, right1, right2;
-
-    {
-        std::ostringstream ss;
-        ss << "CPU: " << std::fixed << std::setprecision(2) << cpuUsage << "%";
-        left1 = ss.str();
-    }
-
-    left2 = "";
-
-    {
-        std::ostringstream ss;
-        ss << "Mem: " << std::fixed << std::setprecision(2)
-           << usedram << "/" << totalram << " GB";
-        right1 = ss.str();
-    }
-
-    {
-        std::ostringstream ss;
-        ss << "Used: " << std::fixed << std::setprecision(2)
-           << ramusage << "% | Free: " << availram << " GB";
-        right2 = ss.str();
-    }
-
-    size_t leftWidth  = std::max(left1.length(), left2.length()) + 2;
-    size_t rightWidth = std::max(right1.length(), right2.length()) + 2;
-    size_t fullWidth  = leftWidth + rightWidth + 1; // merged width
-
-    std::cout << "+" << std::string(leftWidth, '-')
-              << "+" << std::string(rightWidth, '-') << "+\n";
-
-    std::cout << "|"
-              << std::left << std::setw(leftWidth) << left1
-              << "|"
-              << std::left << std::setw(rightWidth) << right1
-              << "|\n";
-
-    std::cout << "|"
-              << std::left << std::setw(leftWidth) << left2
-              << "|"
-              << std::left << std::setw(rightWidth) << right2
-              << "|\n";
-
-    std::cout << "+" << std::string(leftWidth, '-')
-              << "+" << std::string(rightWidth, '-') << "+\n";
-
-    std::cout << "+" << std::string(fullWidth, '-') << "+\n";
-
-    sort(processes.begin(), processes.end());
-
-    int maxProcessesToShow = 15;
-    int count = 0;
-
-    for (const auto &p : processes) {
-        if (count >= maxProcessesToShow) {
-            break;
-        }
-
-        std::ostringstream ss;
-        ss << p.name << " (PID: " << p.id << ") - "
-           << std::fixed << std::setprecision(2)
-           << p.memoryMb << " MB";
-
-        std::string line = ss.str();
-
-        if (line.length() > fullWidth)
-            line = line.substr(0, fullWidth - 3) + "...";
-
-        std::cout << "|"
-                  << std::left << std::setw(fullWidth) << line
-                  << "|\n";
-                  
-        count++;
-    }
-
-    std::cout << "+" << std::string(fullWidth, '-') << "+\n";
+void drawLayout() {
+    std::cout << "\033[2J" ;
+//  layout    << "12345678912345678912345678912345678912345678912345"
+    std::cout << "+------------------------------------------------+\n" ;
+    std::cout << "| CPU :            |Mem  :                       |\n" ;
+    std::cout << "|                  |Used :        |Free:         |\n" ;
+    std::cout << "+------------------------------------------------+\n" ;
     
-    std::cout << "\033[J" << std::flush;
+    std::cout << "+------------------------------------------------+\n" ;
+    for (int i = 0 ; i < 15 ; i++) {
+        std::cout << "|                                                |\n" ;
+    }
+
+    std::cout << "+-------------------------------------------------+\n" ;
+}
+
+void updateStats() {
+
+    double cpuUsage,ramUsage,availRam,totalRam,usedRam ;
+    getCpuUsage(cpuUsage) ;
+    getMemoryUsage(ramUsage,availRam,totalRam) ;
+    usedRam = totalRam-availRam ;
+    auto processes = getProcess() ;
+
+    moveCursor(2,8) ;
+    std::cout << std::fixed
+              << std::setprecision(2)
+              << cpuUsage << " %"; 
+    moveCursor(2,28);
+    std::cout << std::fixed
+              << std::setprecision(2)
+              << usedRam << "/" << totalRam << " GB" ;
+    moveCursor(3,28);
+    std::cout << std::fixed
+              << std::setprecision(2)
+              << ramUsage << " %" ;
+    moveCursor(3,42) ;
+    std::cout << std::fixed
+              << std::setprecision(2)
+              << availRam << "GB" ;
+
+    int row = 6 ;
+    for ( int i = 0 ; i < 15 ;i++ ) {
+        moveCursor(row+i,2) ;
+
+        if (i < processes.size()) {
+            const auto &p = processes[i];
+            std::ostringstream ss;
+            ss << p.name
+               << " PID:" << p.id
+               << " "
+               << std::fixed << std::setprecision(2)
+               << p.memoryMb << "MB";
+
+            std::cout << ss.str();
+        }
+    }
 }
