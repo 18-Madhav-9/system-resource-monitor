@@ -1,6 +1,6 @@
 #include <iostream>
-#include <ui/monitor.h>
-#include <algorithm>
+#include "ui/renderer.h"
+#include "core/monitor.h" 
 #include <windows.h>
 
 int main() {
@@ -11,9 +11,12 @@ int main() {
     Sleep(1000);
     std::cout << "\033[2J" ;
     std::cout << "\033[H";
+
+    Monitor monitor ;
     drawLayout() ;
     while (true) {
-        updateStats() ;
+        monitor.update() ;
+        render(monitor.getState()) ;
         Sleep(1000) ;
     }
 
