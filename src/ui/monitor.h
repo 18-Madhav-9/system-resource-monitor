@@ -1,8 +1,11 @@
-#ifndef MONITOR_H
-#define MONITOR_H
+#pragma once 
 
-void drawLayout() ;
-void moveCursor() ;
-void updateStats() ;
+#include "monitor_state.h"
+class Monitor{
+public :
+    void update();
+    const MonitorState& getState() const ;
 
-#endif
+private:
+    MonitorState state ;
+};
