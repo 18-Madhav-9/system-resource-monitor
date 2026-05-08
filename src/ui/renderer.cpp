@@ -80,9 +80,7 @@ static void renderMemory(const MemoryInfo& memory) {
 }
 
 static void renderProcesses(std::vector<ProcessInfo> processes) {
-
-    std::sort(processes.begin(),processes.end());
-
+    
     int row = 6;
     for (int i = 0; i < 15; i++) {
         moveCursor(row + i, 2);
